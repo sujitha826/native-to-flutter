@@ -1,5 +1,6 @@
 package com.example.logintowatchlistscreen
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -21,10 +22,13 @@ class LoginActivity2 : FlutterActivity() {
         channel.setMethodCallHandler { call, result ->
             when(call.method) {
                 methodSet -> {
-                    val receivedData = call.argument<Int>("groups")
-                    Log.d("Value received from Flutter", receivedData.toString())
+                    val intent = Intent(this, MainActivity::class.java)
+                    intent.putExtra("groups",call.arguments.toString())
+                    startActivity(intent)
+
+//                    Log.d("Value received from Flutter", receivedData.toString())
 //                // Send a response (if needed) back to Flutter
-                    result.success("Response from Android")
+                   //  result.success("Response from Android")
                 }
                 else -> result.notImplemented()
             }

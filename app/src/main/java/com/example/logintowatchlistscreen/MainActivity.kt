@@ -1,5 +1,6 @@
 package com.example.logintowatchlistscreen
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 
@@ -14,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 //import com.example.logintowatchlistscreen.databinding.ActivityMainBinding
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import io.flutter.embedding.android.FlutterActivity
 // import androidx.appcompat.widget.Toolbar
@@ -35,18 +37,13 @@ class MainActivity : AppCompatActivity() {
 //        val toolbar = findViewById<Toolbar>(R.id.toolbar)
 //        setSupportActionBar(toolbar)
 
+        val receivedMessage = intent.getStringExtra("groups") ?: ""
+        val finalMsg = "No of watchlist groups:$receivedMessage"
+        val message = findViewById<TextView>(R.id.messageIdView)
+        message.text = finalMsg
         usernameEditText = findViewById(R.id.usernameEditText)
         passwordEditText = findViewById(R.id.passwordEditText)
         loginButton = findViewById(R.id.loginButton)
-
-//        val flutterEngine = FlutterEngine(this)
-//        flutterEngine.dartExecutor.executeDartEntrypoint(
-//            DartExecutor.DartEntrypoint.createDefault()
-//        )
-//
-//        FlutterEngineCache
-//            .getInstance()
-//            .put("my_engine_id", flutterEngine)
 
         loginButton.setOnClickListener {
             val username = usernameEditText.text.toString()
@@ -57,17 +54,19 @@ class MainActivity : AppCompatActivity() {
             // val methodChannel = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "com.example.login_to_watchlist_screen/platform_channel")
             if (username == "user" && password == "1234"){
                 Toast.makeText(this, "Login Successful!", Toast.LENGTH_SHORT).show()
-                startActivity(
-                    FlutterActivity.createDefaultIntent(this)
-                )
-//                val intent = LoginActivity2
-//                    .withCachedEngine("my_engine_id")
-//                    .build(this@MainActivity)
-//                startActivity(intent)
+//                startActivity(
+//                    FlutterActivity.createDefaultIntent(this)
+//                )
+                navigateToFlutterScreen()
             } else {
                 Toast.makeText(this, "Login Failed!", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun navigateToFlutterScreen() {
+        val intent = Intent(this, LoginActivity2::class.java)
+        startActivity(intent)
     }
 
 
